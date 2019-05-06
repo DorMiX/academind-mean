@@ -6,6 +6,7 @@ import {
   MatInputModule,
   MatCardModule,
   MatButtonModule,
+  MatToolbarModule,
  } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,7 +20,7 @@ import { HeaderComponent } from './header/header.component';
     AppComponent,
     PostsComponent,
     PostCreateComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +30,7 @@ import { HeaderComponent } from './header/header.component';
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
