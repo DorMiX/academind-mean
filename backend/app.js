@@ -1,5 +1,5 @@
 const express = require("express");
-const bodyPraser = require("body-parser")
+const bodyParser = require("body-parser")
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use(
   (req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
-      "Access-Control-Allow-Header",
+      "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
     );
     res.setHeader(
@@ -21,11 +21,11 @@ app.use(
   }
 );
 
-api.use(
+app.post(
   "/api/posts",
   (req, res, next) => {
-    const post = req.body;
-    console.log();
+    const posts = req.body;
+    console.log(posts);
     res.status(201).json(
       {
         message: "Post fetched successfully!",
@@ -35,7 +35,7 @@ api.use(
   }
 );
 
-app.use(
+app.get(
   "/api/posts",
   (req, res, next) => {
     const posts = [
