@@ -1,9 +1,22 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const Post = require("./models/post");
 
 const app = express();
+
+mongoose.connect('mongodb://localhost:27017/posts', {useNewUrlParser: true})
+  .then(
+    () => {
+      console.log('Database connection is success!');
+    }
+  )
+  .catch(
+    (err) => {
+      console.log("Database connection is failed! Error: " + err);
+    }
+  );
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
