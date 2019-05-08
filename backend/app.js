@@ -6,10 +6,10 @@ const Post = require("./models/post");
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/posts', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost:27017/academind-mean', {useNewUrlParser: true})
   .then(
     () => {
-      console.log('Database connection is success!');
+      console.log('Database connection is successful!');
     }
   )
   .catch(
@@ -39,17 +39,18 @@ app.use(
 app.post(
   "/api/posts",
   (req, res, next) => {
-    const posts = new Post(
+    const post = new Post(
       {
         title: req.body.title,
         content: req.body.content,
       }
     );
-    console.log(posts);
+    console.log(post);
+    post.save();
     res.status(201).json(
       {
         message: "Post fetched successfully!",
-        posts: posts,
+        posts: post,
       }
     );
   }
