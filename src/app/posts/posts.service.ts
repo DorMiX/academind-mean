@@ -21,9 +21,13 @@ export class PostsService {
   getPosts() {
     // return [...this.posts];
     this.http.get<{message: string, posts: any}>(`${this.uri}`)
+    .pipe(
+      catchError(this.handleError)
+    )
     .pipe(map(
       (postData) => {
         console.log(postData.message);
+        // console.log(postData.posts);
         return postData.posts.map(
           (post) => {
             return {
@@ -49,9 +53,14 @@ export class PostsService {
 
   addPost(title: string, content: string) {
     const post: Post  = {id: null, title: title, content: content};
-    this.http.post<{message: string}>(`${this.uri}/add`, post).subscribe(
-      (responseData) => {
-        console.log(responseData.message);
+    this.http.post<{message: string, postId: string}>(`${this.uri}/add`, post)
+    .pipe(
+      catchError(this.handleError)
+    )
+    .subscribe(
+      (responsePost) => {
+        const id = responsePost.postId;
+        post.id = id;
         this.posts.push(post);
         this.postUpdated.next([...this.posts]);
       }
@@ -59,14 +68,16 @@ export class PostsService {
   }
 
   deletePost(postId: string) {
-    console.log("service:" + postId);
     return this.http.get(`${this.uri}/delete/${postId}`)
       .pipe(
         catchError(this.handleError)
       )
       .subscribe(
         () => {
-          console.log("Deleted!")
+          console.log("Deleted!");
+          const updatedPosts = this.posts.filter(post => post.id !== postId);
+          this.posts = updatedPosts;
+          this.postUpdated.next([...this.posts]);
         }
       );
   }

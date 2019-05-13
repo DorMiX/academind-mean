@@ -15,14 +15,13 @@ postsRouter.route('/add').post(
         content: req.body.content,
       }
     );
-    console.log(post);
     post.save()
       .then(
-        (post) => {
+        (createdPost) => {
           res.status(201).json(
             {
               message: "Post added successfully!",
-              posts: post,
+              postId: createdPost._id,
             }
           );
         }
