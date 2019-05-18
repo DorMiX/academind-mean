@@ -18,8 +18,8 @@ export class PostsService {
     private http: HttpClient,
   ) {}
 
+  // GET all
   getPosts() {
-    // return [...this.posts];
     this.http.get<{message: string, posts: any}>(`${this.uri}`)
     .pipe(
       catchError(this.handleError)
@@ -51,10 +51,15 @@ export class PostsService {
     return this.postUpdated.asObservable();
   }
 
+  // GET by ID
   getPost(id: string) {
-    return {...this.posts.find(p => p.id === id)};
+    return this.http.get<{
+      _id: string,
+      title: string,
+      content: string}>(`${this.uri}/edit/${id}`);
   }
 
+  // POST
   addPost(title: string, content: string) {
     const post: Post  = {id: null, title: title, content: content};
     this.http.post<{message: string, postId: string}>(`${this.uri}/add`, post)
@@ -71,13 +76,22 @@ export class PostsService {
     );
   }
 
+  // UPDATE
   updatePost(id: string, title: string, content: string) {
     const post: Post  = {id: id, title: title, content: content};
     this.http.put(`${this.uri}/update/${id}`, post)
       .pipe(catchError(this.handleError))
-      .subscribe(response => console.log(response));
+      .subscribe(
+        (response) => {
+          const updatedPosts = [...this.posts];
+          const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id);
+          updatedPosts[oldPostIndex] = post;
+          this.posts = updatedPosts;
+          this.postUpdated.next([...this.posts]);
+        });
   }
 
+  // DELETE
   deletePost(postId: string) {
     return this.http.get(`${this.uri}/delete/${postId}`)
       .pipe(
