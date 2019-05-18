@@ -7,3 +7,7 @@ textarea {
   display: block;
   width: 100%
 }
+
+mat-spinner {
+  margin: auto;
+}

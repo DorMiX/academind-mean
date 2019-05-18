@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Subject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -16,6 +17,7 @@ export class PostsService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) {}
 
   // GET all
@@ -72,6 +74,7 @@ export class PostsService {
         post.id = id;
         this.posts.push(post);
         this.postUpdated.next([...this.posts]);
+        this.router.navigate(['/']);
       }
     );
   }
@@ -88,6 +91,7 @@ export class PostsService {
           updatedPosts[oldPostIndex] = post;
           this.posts = updatedPosts;
           this.postUpdated.next([...this.posts]);
+          this.router.navigate(['/']);
         });
   }
 
