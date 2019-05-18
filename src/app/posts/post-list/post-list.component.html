@@ -9,7 +9,7 @@
     </p>
 
     <mat-action-row>
-      <button mat-button color="accent" type="button" name="button">EDIT</button>
+      <a mat-button color="accent" [routerLink]="['/edit', post.id]">EDIT</a>
       <button mat-button color="warn" type="button" name="button" (click)="onDelete(post.id)">DELETE</button>
     </mat-action-row>
 

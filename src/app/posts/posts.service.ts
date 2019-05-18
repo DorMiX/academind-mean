@@ -51,6 +51,10 @@ export class PostsService {
     return this.postUpdated.asObservable();
   }
 
+  getPost(id: string) {
+    return {...this.posts.find(p => p.id === id)};
+  }
+
   addPost(title: string, content: string) {
     const post: Post  = {id: null, title: title, content: content};
     this.http.post<{message: string, postId: string}>(`${this.uri}/add`, post)
@@ -65,6 +69,13 @@ export class PostsService {
         this.postUpdated.next([...this.posts]);
       }
     );
+  }
+
+  updatePost(id: string, title: string, content: string) {
+    const post: Post  = {id: id, title: title, content: content};
+    this.http.put(`${this.uri}/update/${id}`, post)
+      .pipe(catchError(this.handleError))
+      .subscribe(response => console.log(response));
   }
 
   deletePost(postId: string) {

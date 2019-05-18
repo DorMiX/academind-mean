@@ -55,7 +55,7 @@ postsRouter.route('/').get(
       )
       .catch(
         (err) => {
-          console.log("Oppppsss! Error: " + err);
+          console.log("Error: " + err);
         }
       );
   }
@@ -69,9 +69,23 @@ postsRouter.route('/edit/:id').get(
 );
 
 // UPDATE
-postsRouter.route('/update/:id').post(
+postsRouter.route('/update/:id').put(
   (req, res, next) => {
-
+    const post = new Post({
+      _id: req.body.id,
+      title: req.body.title,
+      content: req.body.content,
+    });
+    Post.updateOne({_id: req.params.id}, post)
+      .then((result) => {
+        console.log(result);
+        res.status(200).json({message: "Update successful!"})
+      })
+      .catch(
+        (err) => {
+          console.log("Error: " + err);
+        }
+      );
   }
 );
 
