@@ -4,7 +4,7 @@ const app = express();
 
 const postsRouter = express.Router();
 
-let Post = require('../models/post');
+const Post = require('../models/post');
 
 // CREATE
 postsRouter.route('/add').post(
