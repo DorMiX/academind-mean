@@ -15,14 +15,14 @@ const storage = multer.diskStorage(
   {
     destination: (req, file, cb) => {
       const isValid = MIME_TYPE_MAP[file.mimetype];
-      let err = new Error("Invalid file");
+      let err = new Error("Invalid file type!");
       if (isValid) {
         err = null;
       }
-      cb(err, "upload");
+      cb(err, "uploads");
     },
     filename: (req, file, cb) => {
-      const name = file.originalname.toLowerCase().split(' ').join('-');
+      const name = file.originalname.toLowerCase().split(" ").join("-");
       const ext = MIME_TYPE_MAP[file.mimetype];
       cb(null, name + "-" + Date.now() + "." + ext);
     }
@@ -33,7 +33,7 @@ const Post = require('../models/post');
 
 // CREATE
 postsRouter.route('/add').post(
-  multer(storage).single("image"),
+  multer({storage: storage}).single("image"),
   (req, res, next) => {
     const post = new Post(
       {
