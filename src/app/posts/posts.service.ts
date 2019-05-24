@@ -36,6 +36,7 @@ export class PostsService {
               title: post.title,
               content: post.content,
               id: post._id,
+              imagePath: post.imagePath,
             };
           }
         )
@@ -67,16 +68,17 @@ export class PostsService {
     postData.append("title", title);
     postData.append("content", content);
     postData.append("image", image, title);
-    this.http.post<{message: string, postId: string}>(`${this.uri}/add`, postData)
+    this.http.post<{message: string, post: Post}>(`${this.uri}/add`, postData)
     .pipe(
       catchError(this.handleError)
     )
     .subscribe(
       (responsePost) => {
         const post: Post = {
-          id: responsePost.postId,
+          id: responsePost.post.id,
           title: title,
           content: content,
+          imagePath: responsePost.post.imagePath,
         };
         this.posts.push(post);
         this.postUpdated.next([...this.posts]);
@@ -87,7 +89,7 @@ export class PostsService {
 
   // UPDATE
   updatePost(id: string, title: string, content: string) {
-    const post: Post  = {id: id, title: title, content: content};
+    const post: Post  = {id: id, title: title, content: content, imagePath: null};
     this.http.put(`${this.uri}/update/${id}`, post)
       .pipe(catchError(this.handleError))
       .subscribe(

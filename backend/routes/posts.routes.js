@@ -35,10 +35,13 @@ const Post = require('../models/post');
 postsRouter.route('/add').post(
   multer({storage: storage}).single("image"),
   (req, res, next) => {
+    const url = req.protocol + "://" + req.get("host");
+    console.log(url);
     const post = new Post(
       {
         title: req.body.title,
         content: req.body.content,
+        imagePath: url + "uploads/" + req.file.filename,
       }
     );
     post.save()
@@ -47,7 +50,10 @@ postsRouter.route('/add').post(
           res.status(201).json(
             {
               message: "Post added successfully!",
-              postId: createdPost._id,
+              post: {
+                ...createdPost,
+                id: createdPost._id,
+              }
             }
           );
         }
