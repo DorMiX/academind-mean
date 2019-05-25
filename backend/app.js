@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -22,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017/academind-mean', {useNewUrlParser: t
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use("/uploads", express.static(path.join("uploads")));
 
 app.use(cors());
 
