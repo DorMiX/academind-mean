@@ -12,7 +12,7 @@ Run `npm run start:server` an other terminal window.
 
 ## MongoDB with Mongoose
 
-Start the mondogdb with `sudo service mongod start` command at a terminal window.
+Start the mondodb with `sudo service mongod start` command at a terminal window.
 
 ## Code scaffolding
 
