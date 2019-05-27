@@ -4,7 +4,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve --port 4343` for a dev server. Navigate to `http://localhost:4343/`. The app will automatically reload if you change any of the source files.
+
+## NodeJS with NodeMon
+
+Run `npm run start:server` an other terminal window.
+
+## MongoDB with Mongoose
+
+Start the mondogdb with `sudo service mongod start` command at a terminal window.
 
 ## Code scaffolding
 
