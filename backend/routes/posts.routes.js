@@ -36,7 +36,6 @@ postsRouter.route('/add').post(
   multer({storage: storage}).single("image"),
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
-    console.log(url);
     const post = new Post(
       {
         title: req.body.title,
@@ -129,7 +128,6 @@ postsRouter.route('/update/:id').put(
       content: req.body.content,
       imagePath: imagePath,
     });
-    console.log(post);
     Post.updateOne({_id: req.params.id}, post)
       .then((result) => {
         res.status(200).json({message: "Update successful!"});
@@ -145,11 +143,9 @@ postsRouter.route('/update/:id').put(
 // DELETE
 postsRouter.route('/delete/:id').get(
   (req, res, next) => {
-    console.log(req.params.id);
     Post.deleteOne({ _id: req.params.id })
       .then(
         (result) => {
-          console.log(result);
           res.status(200).json(
             {
               message: "Post deleted successfully!",

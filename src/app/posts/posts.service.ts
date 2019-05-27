@@ -28,8 +28,6 @@ export class PostsService {
     )
     .pipe(map(
       (postData) => {
-        console.log(postData.message);
-        // console.log(postData.posts);
         return postData.posts.map(
           (post) => {
             return {
@@ -132,7 +130,6 @@ export class PostsService {
       )
       .subscribe(
         () => {
-          console.log("Deleted!");
           const updatedPosts = this.posts.filter(post => post.id !== postId);
           this.posts = updatedPosts;
           this.postUpdated.next([...this.posts]);
