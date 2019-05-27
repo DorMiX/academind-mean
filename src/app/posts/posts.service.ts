@@ -59,7 +59,8 @@ export class PostsService {
     return this.http.get<{
       _id: string,
       title: string,
-      content: string}>(`${this.uri}/edit/${id}`);
+      content: string,
+      imagePath: string}>(`${this.uri}/edit/${id}`);
   }
 
   // POST
@@ -88,14 +89,34 @@ export class PostsService {
   }
 
   // UPDATE
-  updatePost(id: string, title: string, content: string) {
-    const post: Post  = {id: id, title: title, content: content, imagePath: null};
-    this.http.put(`${this.uri}/update/${id}`, post)
+  updatePost(id: string, title: string, content: string, image: File | string) {
+    let postData: FormData | Post;
+    if (typeof(image) === 'object') {
+      postData = new FormData();
+      postData.append('id', id);
+      postData.append('title', title);
+      postData.append('content', content);
+      postData.append('image', image, title);
+    } else {
+      postData = {
+        id: id,
+        title: title,
+        content: content,
+        imagePath: image,
+      };
+    }
+    this.http.put(`${this.uri}/update/${id}`, postData)
       .pipe(catchError(this.handleError))
       .subscribe(
         (response) => {
           const updatedPosts = [...this.posts];
-          const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id);
+          const oldPostIndex = updatedPosts.findIndex(p => p.id === id);
+          const post: Post = {
+            id: id,
+            title: title,
+            content: content,
+            imagePath: '',
+          };
           updatedPosts[oldPostIndex] = post;
           this.posts = updatedPosts;
           this.postUpdated.next([...this.posts]);
