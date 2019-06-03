@@ -10,6 +10,7 @@ import {
   MatToolbarModule,
   MatExpansionModule,
   MatProgressSpinnerModule,
+  MatPaginatorModule,
  } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +41,7 @@ import { PostsService } from './posts/posts.service';
     MatExpansionModule,
     MatProgressSpinnerModule,
     HttpClientModule,
+    MatPaginatorModule,
   ],
   providers: [PostsService],
   bootstrap: [AppComponent]
