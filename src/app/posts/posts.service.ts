@@ -11,7 +11,7 @@ import { Post } from './post.model';
 })
 export class PostsService {
   private posts: Post[] = [];
-  private postUpdated = new Subject<Post[]>();
+  private postUpdated = new Subject<{posts: Post[], postCount: number}>();
 
   private uri = 'http://localhost:3434/api/posts';
 
@@ -23,28 +23,36 @@ export class PostsService {
   // GET all with query params
   getPosts(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{message: string, posts: any}>(`${this.uri}` + queryParams)
+    this.http.get<{message: string, posts: any, maxPosts: number}>(`${this.uri}` + queryParams)
     .pipe(
       catchError(this.handleError)
     )
     .pipe(map(
       (postData) => {
-        return postData.posts.map(
-          (post) => {
-            return {
-              title: post.title,
-              content: post.content,
-              id: post._id,
-              imagePath: post.imagePath,
-            };
-          }
-        )
+        return {
+          posts: postData.posts.map(
+            (post) => {
+              return {
+                title: post.title,
+                content: post.content,
+                id: post._id,
+                imagePath: post.imagePath,
+              };
+            }
+          ),
+          maxPosts: postData.maxPosts,
+        };
       }
     ))
     .subscribe(
-      (transformedPost) => {
-        this.posts = transformedPost;
-        this.postUpdated.next([...this.posts]);
+      (transformedPostData) => {
+        this.posts = transformedPostData.posts;
+        this.postUpdated.next(
+          {
+            posts: [...this.posts],
+            postCount: transformedPostData.maxPosts,
+          }
+        );
       }
     );
   }

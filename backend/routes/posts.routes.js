@@ -76,6 +76,7 @@ postsRouter.route('/').get(
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
     const postQuery = Post.find();
+    let fetchedPosts;
     if (pageSize && currentPage) {
       postQuery
         .skip(pageSize * (currentPage - 1))
@@ -84,11 +85,18 @@ postsRouter.route('/').get(
     postQuery
       .then(
         (documents) => {
+          fetchedPosts = documents;
+          return Post.count();
+        }
+      )
+      .then(
+        (count) => {
           console.log("Documents fetched successfully");
           res.status(200).json(
             {
               message: 'Posts fetched successfully!',
-              posts: documents,
+              posts: fetchedPosts,
+              maxPosts: count,
             }
           );
         }
