@@ -5,12 +5,15 @@ const app = express();
 
 const postsRouter = express.Router();
 
+const Post = require('../models/post');
+
 const MIME_TYPE_MAP = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
 };
 
+// UPLOADS
 const storage = multer.diskStorage(
   {
     destination: (req, file, cb) => {
@@ -28,8 +31,6 @@ const storage = multer.diskStorage(
     }
   }
 );
-
-const Post = require('../models/post');
 
 // CREATE
 postsRouter.route('/add').post(
