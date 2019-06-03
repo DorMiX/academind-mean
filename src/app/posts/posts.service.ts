@@ -20,9 +20,10 @@ export class PostsService {
     private router: Router,
   ) {}
 
-  // GET all
-  getPosts() {
-    this.http.get<{message: string, posts: any}>(`${this.uri}`)
+  // GET all with query params
+  getPosts(postsPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
+    this.http.get<{message: string, posts: any}>(`${this.uri}` + queryParams)
     .pipe(
       catchError(this.handleError)
     )
