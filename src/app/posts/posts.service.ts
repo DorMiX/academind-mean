@@ -82,14 +82,6 @@ export class PostsService {
     )
     .subscribe(
       (responsePost) => {
-        const post: Post = {
-          id: responsePost.post.id,
-          title: title,
-          content: content,
-          imagePath: responsePost.post.imagePath,
-        };
-        this.posts.push(post);
-        this.postUpdated.next([...this.posts]);
         this.router.navigate(['/']);
       }
     );
@@ -116,34 +108,13 @@ export class PostsService {
       .pipe(catchError(this.handleError))
       .subscribe(
         (response) => {
-          const updatedPosts = [...this.posts];
-          const oldPostIndex = updatedPosts.findIndex(p => p.id === id);
-          const post: Post = {
-            id: id,
-            title: title,
-            content: content,
-            imagePath: '',
-          };
-          updatedPosts[oldPostIndex] = post;
-          this.posts = updatedPosts;
-          this.postUpdated.next([...this.posts]);
           this.router.navigate(['/']);
         });
   }
 
   // DELETE
   deletePost(postId: string) {
-    return this.http.get(`${this.uri}/delete/${postId}`)
-      .pipe(
-        catchError(this.handleError)
-      )
-      .subscribe(
-        () => {
-          const updatedPosts = this.posts.filter(post => post.id !== postId);
-          this.posts = updatedPosts;
-          this.postUpdated.next([...this.posts]);
-        }
-      );
+    return this.http.get(`${this.uri}/delete/${postId}`);
   }
 
   private handleError(error: HttpErrorResponse) {
