@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const postsRouter = require("./routes/posts.routes");
+const usersRouter = require("./routes/users.routes");
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/uploads", express.static(path.join("uploads")));
 app.use(cors());
 
 app.use("/api/posts", postsRouter);
+app.use("/api/users", usersRouter);
 
 module.exports = app;
