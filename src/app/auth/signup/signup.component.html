@@ -25,6 +25,17 @@
         required>
       <mat-error *ngIf="pwdInput.invalid">Please enter valid password.</mat-error>
     </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="username"
+        name="username"
+        ngModel
+        placeholder="username (optional)"
+        #unameInput="ngModel">
+    </mat-form-field>
+
     <button
       mat-raised-button
       color="primary"

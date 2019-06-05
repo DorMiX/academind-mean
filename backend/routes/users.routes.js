@@ -16,6 +16,7 @@ usersRouter.route("/signup").post(
             {
               email: req.body.email,
               password: hash,
+              username: req.body.userName,
             }
           );
           user.save()
