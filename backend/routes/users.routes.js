@@ -1,5 +1,6 @@
 const express = require("express");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 const User = require("../models/user");
 
@@ -45,8 +46,46 @@ usersRouter.route("/signup").post(
   }
 );
 
+// SIGNIN
+usersRouter.route("/signin").post(
+  (req, res, error) => {
+    User.findOne({email: req.body.email})
+      .then(
+        (user) => {
+          if (!user) {
+            return res.status(401).json({
+              message: "Authentication failed!",
+            });
+          } else {
+            return bcrypt.compare(req.body.password, user.password);
+          }
+        }
+      )
+      .then(
+        (result) => {
+          if (!user) {
+            return res.status(401).json({
+              message: "Authentication failed!",
+            });
+          } else {
+            const token = jwt.sign(
+              {email: user.email, userId: user._id},
+              "secret_this_should_be_longer"
+            );
+          }
+        }
+      ).catch(
+        (err) => {
+          return res.status(401).json({
+            message: "Authentication failed!",
+          });
+        }
+      );
+  }
+);
+
 // GET all
-usersRouter.route('/').get(
+usersRouter.route("/").get(
   (req, res, next) => {
     User.find()
       .then(
