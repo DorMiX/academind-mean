@@ -29,4 +29,20 @@ export class AuthService {
         }
       );
   }
+
+  loginUser(email: string, password: string) {
+    const authData: AuthData = {
+      email: email,
+      password: password,
+    };
+    this.http.post(
+      `${this.uri}/signin`,
+      authData
+    )
+      .subscribe(
+        (response) => {
+          console.log(response);
+        }
+      );
+  }
 }
