@@ -7,6 +7,7 @@ const app = express();
 
 const usersRouter = express.Router();
 
+// SIGNUP
 usersRouter.route("/signup").post(
   (req, res, error) => {
     bcrypt.hash(req.body.password, 10)
@@ -39,6 +40,28 @@ usersRouter.route("/signup").post(
                 );
               }
             );
+        }
+      );
+  }
+);
+
+// GET all
+usersRouter.route('/').get(
+  (req, res, next) => {
+    User.find()
+      .then(
+        (documents) => {
+          res.status(200).json(
+            {
+              message: 'Users fetched successfully!',
+              posts: documents,
+            }
+          );
+        }
+      )
+      .catch(
+        (err) => {
+          console.log("Error: " + err);
         }
       );
   }
