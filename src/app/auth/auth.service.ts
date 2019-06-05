@@ -8,6 +8,7 @@ import { AuthData } from './auth-data.model';
 })
 export class AuthService {
   private uri = 'http://localhost:3434/api/users';
+  private token: string;
 
   constructor(
     private http: HttpClient,
@@ -35,14 +36,19 @@ export class AuthService {
       email: email,
       password: password,
     };
-    this.http.post(
+    this.http.post<{token: string}>(
       `${this.uri}/signin`,
       authData
     )
       .subscribe(
         (response) => {
-          console.log(response);
+          const token = response.token;
+          this.token = token;
         }
       );
+  }
+
+  getToken() {
+    return this.token;
   }
 }
