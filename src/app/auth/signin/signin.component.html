@@ -29,6 +29,7 @@
       mat-raised-button
       color="primary"
       type="submit"
-      name="button">Sign In</button>
+      name="button"
+      *ngIf="!isLoading">Sign In</button>
   </form>
 </mat-card>

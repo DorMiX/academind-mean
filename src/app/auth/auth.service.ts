@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { AuthData } from './auth-data.model';
@@ -12,9 +13,11 @@ export class AuthService {
   private token: string;
   private authStatusListener = new Subject<boolean>();
   private isAuthenticated = false;
+  isSignupSuccess = false;
 
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) { }
 
   createUser(email: string, password: string, username: string) {
@@ -23,13 +26,14 @@ export class AuthService {
       password: password,
       userName: username,
     };
-    this.http.post(
+    this.http.post<{message: string}>(
       `${this.uri}/signup`,
       authData
     )
       .subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
+          (response.message) ? this.isSignupSuccess = true : this.isSignupSuccess = false;
         }
       );
   }
@@ -50,6 +54,7 @@ export class AuthService {
           if(token) {
             this.authStatusListener.next(true);
             this.isAuthenticated = true;
+            this.router.navigate(['/']);
           }
         }
       );
@@ -59,6 +64,7 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
+    this.router.navigate(['/']);
   }
 
   getToken() {
