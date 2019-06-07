@@ -43,7 +43,6 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuth;
       }
     );
-    console.log(this.isAuthenticated);
   }
 
   onChangedPage(pageData: PageEvent) {

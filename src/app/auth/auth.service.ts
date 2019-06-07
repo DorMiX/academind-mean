@@ -55,6 +55,12 @@ export class AuthService {
       );
   }
 
+  logoutUser() {
+    this.token = null;
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
+  }
+
   getToken() {
     return this.token;
   }
