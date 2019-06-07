@@ -11,6 +11,7 @@ export class AuthService {
   private uri = 'http://localhost:3434/api/users';
   private token: string;
   private authStatusListener = new Subject<boolean>();
+  private isAuthenticated = false;
 
   constructor(
     private http: HttpClient,
@@ -46,7 +47,10 @@ export class AuthService {
         (response) => {
           const token = response.token;
           this.token = token;
-          this.authStatusListener.next(true);
+          if(token) {
+            this.authStatusListener.next(true);
+            this.isAuthenticated = true;
+          }
         }
       );
   }
@@ -57,5 +61,9 @@ export class AuthService {
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
+  }
+
+  getIsAuth() {
+    return this.isAuthenticated;
   }
 }
