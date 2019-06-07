@@ -13,6 +13,7 @@ export class AuthService {
   private token: string;
   private authStatusListener = new Subject<boolean>();
   private isAuthenticated = false;
+  private tokenTimer: any;
   isSignupSuccess = false;
 
   constructor(
@@ -43,7 +44,7 @@ export class AuthService {
       email: email,
       password: password,
     };
-    this.http.post<{token: string}>(
+    this.http.post<{token: string, expiresIn: number}>(
       `${this.uri}/signin`,
       authData
     )
@@ -52,6 +53,13 @@ export class AuthService {
           const token = response.token;
           this.token = token;
           if(token) {
+            const expiresInDuration = response.expiresIn;
+            console.log(expiresInDuration);
+            this.tokenTimer = setTimeout(
+              () => {
+                this.logoutUser();
+              }, expiresInDuration * 1000
+            );
             this.authStatusListener.next(true);
             this.isAuthenticated = true;
             this.router.navigate(['/']);
@@ -65,6 +73,7 @@ export class AuthService {
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     this.router.navigate(['/']);
+    clearTimeout(this.tokenTimer);
   }
 
   getToken() {
