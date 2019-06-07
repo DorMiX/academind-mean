@@ -14,7 +14,6 @@ export class AuthService {
   private authStatusListener = new Subject<boolean>();
   private isAuthenticated = false;
   private tokenTimer: any;
-  isSignupSuccess = false;
 
   constructor(
     private http: HttpClient,
@@ -33,8 +32,7 @@ export class AuthService {
     )
       .subscribe(
         (response) => {
-          // console.log(response);
-          (response.message) ? this.isSignupSuccess = true : this.isSignupSuccess = false;
+          console.log(response);
         }
       );
   }
