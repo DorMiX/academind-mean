@@ -44,6 +44,7 @@ postsRouter.route('/add').post(
         title: req.body.title,
         content: req.body.content,
         imagePath: url + "/uploads/" + req.file.filename,
+        creator: req.userData.userId,
       }
     );
     post.save()
