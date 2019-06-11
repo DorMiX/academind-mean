@@ -148,6 +148,7 @@ postsRouter.route('/update/:id').put(
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
+      creator: req.userData.userId,
     });
     Post.updateOne(
       {

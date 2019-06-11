@@ -68,7 +68,9 @@ export class PostsService {
       _id: string,
       title: string,
       content: string,
-      imagePath: string}>(`${this.uri}/edit/${id}`);
+      imagePath: string,
+      creator: string,
+    }>(`${this.uri}/edit/${id}`);
   }
 
   // POST
@@ -103,6 +105,7 @@ export class PostsService {
         title: title,
         content: content,
         imagePath: image,
+        creator: null,
       };
     }
     this.http.put(`${this.uri}/update/${id}`, postData)
