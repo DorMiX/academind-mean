@@ -36,7 +36,7 @@ usersRouter.route("/signup").post(
               (err) => {
                 res.status(500).json(
                   {
-                    error: err,
+                    message: "Invalid authentication credentials!",
                   }
                 );
               }

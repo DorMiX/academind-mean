@@ -62,10 +62,10 @@ postsRouter.route('/add').post(
         }
       )
       .catch(
-        (err) => {
-          res.status(400).json(
+        (error) => {
+          res.status(500).json(
             {
-              message: "Unable to save to DB!"
+              message: "Creating a post failed!"
             }
           )
         }
@@ -105,8 +105,12 @@ postsRouter.route('/').get(
         }
       )
       .catch(
-        (err) => {
-          console.log("Error: " + err);
+        (error) => {
+          res.status(500).json(
+            {
+              message: "Fetching posts failed!"
+            }
+          )
         }
       );
   }
@@ -126,8 +130,12 @@ postsRouter.route('/edit/:id').get(
         }
       )
       .catch(
-        (err) => {
-          console.log("Error: " + err);
+        (error) => {
+          res.status(500).json(
+            {
+              message: "Fetching post failed!"
+            }
+          )
         }
       );
   }
@@ -163,8 +171,12 @@ postsRouter.route('/update/:id').put(
         }
       })
       .catch(
-        (err) => {
-          console.log("Error: " + err);
+        (error) => {
+          res.status(500).json(
+            {
+              message: "Could not update the post!"
+            }
+          )
         }
       );
   }
@@ -189,7 +201,15 @@ postsRouter.route('/delete/:id').get(
           }
         }
       )
-      .catch((err) => {console.log("Error: " + err);});
+      .catch(
+        (error) => {
+          res.status(500).json(
+            {
+              message: "Could not delete the post!"
+            }
+          )
+        }
+      );
   }
 );
 
