@@ -7,10 +7,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PostsComponent } from './posts/posts.component';
-import { PostCreateComponent } from './posts/post-create/post-create.component';
+
 import { HeaderComponent } from './header/header.component';
-import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostsService } from './posts/posts.service';
 import { AuthComponent } from './auth/auth.component';
 import { SignupComponent } from './auth/signup/signup.component';
@@ -19,14 +17,12 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
+import { PostModule } from './posts/post.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent,
-    PostCreateComponent,
     HeaderComponent,
-    PostListComponent,
     AuthComponent,
     SignupComponent,
     SigninComponent,
@@ -40,6 +36,7 @@ import { AngularMaterialModule } from './angular-material.module';
     HttpClientModule,
     FormsModule,
     AngularMaterialModule,
+    PostModule,
   ],
   providers: [
     PostsService,
