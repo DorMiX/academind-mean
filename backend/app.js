@@ -11,6 +11,7 @@ const app = express();
 
 mongoose.connect('mongodb://localhost:27017/academind-mean', {useNewUrlParser: true})
 // mongoose.connect("mongodb+srv://dormix:HUue7Yr6tH7ivDhg@dormix0-ddpjs.mongodb.net/academind-mean?retryWrites=true", {useNewUrlParser: true})
+// mongoose.connect("mongodb+srv://dormix:" + process.env.MONGO_ATLAS_PWD + "@dormix0-ddpjs.mongodb.net/academind-mean?retryWrites=true", {useNewUrlParser: true})
   .then(
     () => {
       console.log('Database connection is successful!');
