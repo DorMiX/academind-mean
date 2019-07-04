@@ -99,8 +99,10 @@ exports.updatePost = (req, res, next) => {
     }, post)
     .then((result) => {
       console.log(result);
-      if (result.n > 0) {
+      if (result.n > 0 && result.nModified > 0) {
         res.status(200).json({message: "Update successful!"});
+      } else if (result.n > 0 && result.nModified == 0) {
+        res.status(200).json({message: "Not modified!"});
       } else {
         res.status(401).json({message: "Not authorized!"});
       }
