@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 
 import { AngularMaterialModule } from './angular-material.module';
 import { PostModule } from './posts/post.module';
-import { AuthModule } from './auth/auth.module';
 
 import { HeaderComponent } from './header/header.component';
 import { PostsService } from './posts/posts.service';
@@ -32,7 +31,6 @@ import { ErrorComponent } from './error/error.component';
     FormsModule,
     AngularMaterialModule,
     PostModule,
-    AuthModule,
   ],
   providers: [
     PostsService,
