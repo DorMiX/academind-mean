@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 import { AuthData } from './auth-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private uri = 'http://localhost:3434/api/users';
+  private BACKEND_URL = environment.apiUrl + '/users';
   private token: string;
   private authStatusListener = new Subject<boolean>();
   private isAuthenticated = false;
@@ -28,7 +29,7 @@ export class AuthService {
       userName: username,
     };
     this.http.post<{message: string}>(
-      `${this.uri}/signup`,
+      `${this.BACKEND_URL}/signup`,
       authData
     )
       .subscribe(
@@ -49,7 +50,7 @@ export class AuthService {
       password: password,
     };
     this.http.post<{token: string, expiresIn: number, userId: string}>(
-      `${this.uri}/signin`,
+      `${this.BACKEND_URL}/signin`,
       authData
     )
       .subscribe(
@@ -145,7 +146,7 @@ export class AuthService {
   }
 
   private setAuthTimer(duration: number) {
-    console.log('Setting timer: ' + duration);
+    // console.log('Setting timer: ' + duration);
     this.tokenTimer = setTimeout(
       () => {
         this.logoutUser();

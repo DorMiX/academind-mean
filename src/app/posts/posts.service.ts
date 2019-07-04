@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { Subject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
 import { Post } from './post.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class PostsService {
   private posts: Post[] = [];
   private postUpdated = new Subject<{posts: Post[], postCount: number}>();
 
-  private uri = 'http://localhost:3434/api/posts';
+  private BACKEND_URL = environment.apiUrl + '/posts';
 
   constructor(
     private http: HttpClient,
@@ -23,7 +25,7 @@ export class PostsService {
   // GET all with query params
   getPosts(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{message: string, posts: any, maxPosts: number}>(`${this.uri}` + queryParams)
+    this.http.get<{message: string, posts: any, maxPosts: number}>(`${this.BACKEND_URL}` + queryParams)
     .pipe(
       catchError(this.handleError)
     )
@@ -70,7 +72,7 @@ export class PostsService {
       content: string,
       imagePath: string,
       creator: string,
-    }>(`${this.uri}/edit/${id}`);
+    }>(`${this.BACKEND_URL}/edit/${id}`);
   }
 
   // POST
@@ -79,7 +81,7 @@ export class PostsService {
     postData.append("title", title);
     postData.append("content", content);
     postData.append("image", image, title);
-    this.http.post<{message: string, post: Post}>(`${this.uri}/add`, postData)
+    this.http.post<{message: string, post: Post}>(`${this.BACKEND_URL}/add`, postData)
     .pipe(
       catchError(this.handleError)
     )
@@ -108,7 +110,7 @@ export class PostsService {
         creator: null,
       };
     }
-    this.http.put(`${this.uri}/update/${id}`, postData)
+    this.http.put(`${this.BACKEND_URL}/update/${id}`, postData)
       .pipe(catchError(this.handleError))
       .subscribe(
         (response) => {
@@ -118,7 +120,7 @@ export class PostsService {
 
   // DELETE
   deletePost(postId: string) {
-    return this.http.get(`${this.uri}/delete/${postId}`);
+    return this.http.get(`${this.BACKEND_URL}/delete/${postId}`);
   }
 
   private handleError(error: HttpErrorResponse) {
