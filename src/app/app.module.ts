@@ -4,28 +4,23 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { AngularMaterialModule } from './angular-material.module';
+import { PostModule } from './posts/post.module';
+import { AuthModule } from './auth/auth.module';
+
 import { HeaderComponent } from './header/header.component';
 import { PostsService } from './posts/posts.service';
-import { AuthComponent } from './auth/auth.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { SigninComponent } from './auth/signin/signin.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
-import { AngularMaterialModule } from './angular-material.module';
-import { PostModule } from './posts/post.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    AuthComponent,
-    SignupComponent,
-    SigninComponent,
     ErrorComponent,
   ],
   imports: [
@@ -37,6 +32,7 @@ import { PostModule } from './posts/post.module';
     FormsModule,
     AngularMaterialModule,
     PostModule,
+    AuthModule,
   ],
   providers: [
     PostsService,
